@@ -1,13 +1,17 @@
-import express from "express";
-import cors from "cors";
-import restaurants from "./api/restaurants.route.js"
+const express = require('express');
+const db = require('./config/connection');
+const routes = require('./routes');
+
+const PORT = 3001;
 
 const app = express()
 
-app.use(cors())
-app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(routes);
 
-app.use("/api/v1/restaurants", restaurants)
-app.use("*", (req, res) => res.status(404).json("not found"))
-
-export default app
+db.once('open', () => {
+  app.listen(PORT, () => {
+    console.log(`API server running on port ${PORT}!`);
+  });
+});
