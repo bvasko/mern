@@ -1,19 +1,19 @@
+
 const router = require('express').Router();
+// deconstructing the controllers from the userController.js
 const {
   getUsers,
-  getSingleUser,
   createUser,
+  getSingleUser,
+  updateUser,
   deleteUser,
-  addFriend,
-  removeFriend
+  newFriend,
+  deleteFriend,
 } = require('../../controllers/userController');
-
-// /api/users
 router.route('/').get(getUsers).post(createUser);
-router.route('/:userId').delete(deleteUser);
 
-// /api/users/:userId
-router.route('/:userId').get(getSingleUser);
-router.route('/:userId/friends/:friendId').post(addFriend).delete(removeFriend);
+router.route('/:userId').get(getSingleUser).delete(deleteUser).put(updateUser);
+
+router.route('/:userId/friends/:friendId').post(newFriend).delete(deleteFriend);
 
 module.exports = router;

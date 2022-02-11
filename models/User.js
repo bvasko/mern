@@ -26,9 +26,16 @@ const userSchema = new Schema(
       type: Date,
       default: Date.now,
     }
-  }
-);
-
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  });
+  userSchema.virtual('friendCount').get(function () {
+    return this.friends.length;
+  });
 const User = model('user', userSchema);
 
 module.exports = User;
